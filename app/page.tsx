@@ -5,6 +5,9 @@ import Link from "next/link";
 import { CameraButton } from "@/components/CameraButton";
 import { ResultCard } from "@/components/ResultCard";
 import { Disclaimer } from "@/components/Disclaimer";
+import { SaveProductForm } from "@/components/SaveProductForm";
+import { getSupabase } from "@/lib/supabase";
+import { createProduct, type NewProduct } from "@/lib/products";
 import type { AnalysisResult } from "@/lib/types";
 
 export default function Home() {
@@ -39,8 +42,13 @@ export default function Home() {
       )}
       {result && (
         <div className="mt-6">
-          <ResultCard result={result} />
-          <Disclaimer />
+          <ResultCard result={result}>
+              <SaveProductForm
+                result={result}
+                onSave={async (p: NewProduct) => { await createProduct(getSupabase(), p); }}
+              />
+            </ResultCard>
+            <Disclaimer />
         </div>
       )}
       <Link href="/produkter" className="mt-8 block text-center text-blue-600 underline">

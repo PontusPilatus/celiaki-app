@@ -6,7 +6,7 @@ const STYLES = {
   unsafe: { bg: "bg-red-100", text: "text-red-900", emoji: "🔴", title: "Ajaj — detta innehåller gluten" },
 } as const;
 
-export function ResultCard({ result }: { result: AnalysisResult }) {
+export function ResultCard({ result, children }: { result: AnalysisResult; children?: React.ReactNode }) {
   const s = STYLES[result.status];
   return (
     <div className={`rounded-2xl p-6 ${s.bg} ${s.text}`}>
@@ -16,6 +16,7 @@ export function ResultCard({ result }: { result: AnalysisResult }) {
         <p className="mt-3">Hittade: {result.found.join(", ")}</p>
       )}
       <p className="mt-3">{result.reasoning}</p>
+      {children}
     </div>
   );
 }
