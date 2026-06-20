@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import type { SavedProduct } from "@/lib/products";
+import type { SavedProduct, NewProduct } from "@/lib/products";
 import { ConfirmModal } from "./ConfirmModal";
+import { EditProductForm } from "./EditProductForm";
 
 const STATUS_STYLES = {
   safe: {
@@ -56,11 +57,25 @@ function formatDate(iso: string): string {
   }
 }
 
-export function ProductList({ products, onDelete }: { products: SavedProduct[]; onDelete: (id: string) => void }) {
+export function ProductList({
+  products,
+  onDelete,
+  onUpdate,
+}: {
+  products: SavedProduct[];
+  onDelete: (id: string) => void;
+  onUpdate: (id: string, patch: Partial<NewProduct>) => Promise<void>;
+}) {
   const [q, setQ] = useState("");
   const [filter, setFilter] = useState<"all" | "safe" | "warning" | "unsafe">("all");
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [pendingDelete, setPendingDelete] = useState<SavedProduct | null>(null);
+
+  function toggleExpand(id: string, isExpanded: boolean) {
+    setExpandedId(isExpanded ? null : id);
+    setEditingId(null);
+  }
 
   const visible = products.filter((p) => {
     const matchesQ = p.name.toLowerCase().includes(q.toLowerCase());
@@ -128,7 +143,7 @@ export function ProductList({ products, onDelete }: { products: SavedProduct[]; 
                   type="button"
                   aria-expanded={isExpanded}
                   aria-controls={`details-${p.id}`}
-                  onClick={() => setExpandedId(isExpanded ? null : p.id)}
+                  onClick={() => toggleExpand(p.id, isExpanded)}
                   className="flex items-center gap-3 flex-1 min-w-0 text-left px-4 py-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal/40 rounded-2xl"
                 >
                   <span className={`w-9 h-9 grid place-items-center rounded-full ${s.iconBg} text-white shrink-0`}>
@@ -160,28 +175,51 @@ export function ProductList({ products, onDelete }: { products: SavedProduct[]; 
                 </button>
               </div>
 
-              {isExpanded && (
-                <div id={`details-${p.id}`} className="px-4 pb-4 pt-1 space-y-1.5 font-body text-sm">
-                  <div className="flex gap-2">
-                    <span className="text-ink/45 w-20 shrink-0">Status</span>
-                    <span className={`font-bold ${s.detailText}`}>{s.label}</span>
+              {isExpanded && editingId === p.id && (
+                <EditProductForm
+                  product={p}
+                  onCancel={() => setEditingId(null)}
+                  onSave={async (patch) => {
+                    await onUpdate(p.id, patch);
+                    setEditingId(null);
+                  }}
+                />
+              )}
+
+              {isExpanded && editingId !== p.id && (
+                <div id={`details-${p.id}`} className="px-4 pb-4 pt-1 font-body text-sm">
+                  <div className="space-y-1.5">
+                    <div className="flex gap-2">
+                      <span className="text-ink/45 w-20 shrink-0">Status</span>
+                      <span className={`font-bold ${s.detailText}`}>{s.label}</span>
+                    </div>
+                    <div className="flex gap-2">
+                      <span className="text-ink/45 w-20 shrink-0">Kategori</span>
+                      <span className="text-ink break-words min-w-0">{p.category || "—"}</span>
+                    </div>
+                    <div className="flex gap-2">
+                      <span className="text-ink/45 w-20 shrink-0">Märke</span>
+                      <span className="text-ink break-words min-w-0">{p.brand || "—"}</span>
+                    </div>
+                    <div className="flex gap-2">
+                      <span className="text-ink/45 w-20 shrink-0">Notis</span>
+                      <span className="text-ink break-words min-w-0">{p.note || "—"}</span>
+                    </div>
+                    <div className="flex gap-2">
+                      <span className="text-ink/45 w-20 shrink-0">Sparad</span>
+                      <span className="text-ink/70">{formatDate(p.created_at)}</span>
+                    </div>
                   </div>
-                  <div className="flex gap-2">
-                    <span className="text-ink/45 w-20 shrink-0">Kategori</span>
-                    <span className="text-ink break-words min-w-0">{p.category || "—"}</span>
-                  </div>
-                  <div className="flex gap-2">
-                    <span className="text-ink/45 w-20 shrink-0">Märke</span>
-                    <span className="text-ink break-words min-w-0">{p.brand || "—"}</span>
-                  </div>
-                  <div className="flex gap-2">
-                    <span className="text-ink/45 w-20 shrink-0">Notis</span>
-                    <span className="text-ink break-words min-w-0">{p.note || "—"}</span>
-                  </div>
-                  <div className="flex gap-2">
-                    <span className="text-ink/45 w-20 shrink-0">Sparad</span>
-                    <span className="text-ink/70">{formatDate(p.created_at)}</span>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setEditingId(p.id)}
+                    className="mt-3 inline-flex items-center gap-2 rounded-2xl border-2 border-teal text-teal hover:bg-teal/10 transition-colors font-display font-bold px-4 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal/40"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+                    </svg>
+                    Redigera
+                  </button>
                 </div>
               )}
             </li>
