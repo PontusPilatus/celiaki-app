@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ProductList } from "@/components/ProductList";
 import { getSupabase } from "@/lib/supabase";
-import { listProducts, deleteProduct, type SavedProduct } from "@/lib/products";
+import { listProducts, deleteProduct, updateProduct, type SavedProduct, type NewProduct } from "@/lib/products";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<SavedProduct[]>([]);
@@ -33,6 +33,12 @@ export default function ProductsPage() {
     } finally {
       await refresh();
     }
+  }
+
+  // Kastar vidare vid fel så att redigera-formuläret kan visa felet inline.
+  async function handleUpdate(id: string, patch: Partial<NewProduct>) {
+    await updateProduct(getSupabase(), id, patch);
+    await refresh();
   }
 
   return (
@@ -68,7 +74,7 @@ export default function ProductsPage() {
               </button>
             </div>
           ) : (
-            <ProductList products={products} onDelete={handleDelete} />
+            <ProductList products={products} onDelete={handleDelete} onUpdate={handleUpdate} />
           )}
         </div>
       </div>

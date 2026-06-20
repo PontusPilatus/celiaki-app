@@ -3,21 +3,8 @@
 import { useState } from "react";
 import type { AnalysisResult } from "@/lib/types";
 import type { NewProduct } from "@/lib/products";
-import { Select, type SelectOption } from "./Select";
-
-const CATEGORY_OPTIONS: SelectOption[] = [
-  { value: "", label: "Kategori (frivillig)" },
-  { value: "Bröd", label: "Bröd" },
-  { value: "Pasta", label: "Pasta" },
-  { value: "Mjöl/Bakning", label: "Mjöl/Bakning" },
-  { value: "Godis/Snacks", label: "Godis/Snacks" },
-  { value: "Mejeri", label: "Mejeri" },
-  { value: "Flingor/Müsli", label: "Flingor/Müsli" },
-  { value: "Såser/Kryddor", label: "Såser/Kryddor" },
-  { value: "Färdigmat", label: "Färdigmat" },
-  { value: "Dryck", label: "Dryck" },
-  { value: "Övrigt", label: "Övrigt" },
-];
+import { Select } from "./Select";
+import { CATEGORY_OPTIONS } from "@/lib/categories";
 
 const inputClass =
   "w-full rounded-2xl border-2 border-sky bg-sky px-4 py-3 font-body text-ink placeholder:text-ink/40 focus:outline-none focus:border-teal transition-colors";
