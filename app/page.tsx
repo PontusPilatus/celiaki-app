@@ -32,6 +32,49 @@ export default function Home() {
     }
   }
 
+  function reset() {
+    setResult(null);
+    setError(null);
+  }
+
+  // Resultatskärm — ersätter startskärmen när ett svar finns.
+  if (result) {
+    return (
+      <main className="mx-auto max-w-md px-4 py-6">
+        <button
+          type="button"
+          onClick={reset}
+          aria-label="Tillbaka till start"
+          className="flex items-center gap-1.5 font-display font-bold text-teal hover:text-tealdk transition-colors py-2 -ml-1 pr-3 focus:outline-none focus:ring-4 focus:ring-teal/30 rounded-xl"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="m15 18-6-6 6-6" />
+          </svg>
+          Tillbaka
+        </button>
+
+        <div className="mt-3">
+          <ResultCard result={result}>
+            <SaveProductForm
+              result={result}
+              onSave={async (p: NewProduct) => { await createProduct(getSupabase(), p); }}
+            />
+          </ResultCard>
+          <Disclaimer />
+        </div>
+
+        <button
+          type="button"
+          onClick={reset}
+          className="mt-5 w-full rounded-[1.4rem] border-2 border-teal text-teal hover:bg-sky transition-colors font-display font-extrabold py-3.5 focus:outline-none focus:ring-4 focus:ring-teal/30"
+        >
+          Ta ny bild
+        </button>
+      </main>
+    );
+  }
+
+  // Startskärm — kamera + förklaring.
   return (
     <main className="mx-auto max-w-md px-4 py-8 space-y-6">
       {/* Hero card */}
@@ -73,7 +116,7 @@ export default function Home() {
           )}
 
           {/* Verdict legend chips */}
-          {!result && (
+          {!loading && !error && (
             <div className="mt-5 flex gap-2.5">
               <div className="flex-1 rounded-3xl bg-emerald-100 py-4 grid place-items-center">
                 <span className="w-8 h-8 grid place-items-center rounded-full bg-emerald-500 text-white">
@@ -106,18 +149,6 @@ export default function Home() {
           </Link>
         </div>
       </div>
-
-      {result && (
-        <div className="space-y-0">
-          <ResultCard result={result}>
-            <SaveProductForm
-              result={result}
-              onSave={async (p: NewProduct) => { await createProduct(getSupabase(), p); }}
-            />
-          </ResultCard>
-          <Disclaimer />
-        </div>
-      )}
     </main>
   );
 }
