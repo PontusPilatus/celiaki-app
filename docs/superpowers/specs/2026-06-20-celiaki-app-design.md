@@ -16,18 +16,21 @@ läsa och tolka långa ingredienslistor själv.
 ## Omfattning (MVP)
 
 Första versionen fokuserar på ett huvudflöde — **ta foto på en
-innehållsförteckning → få ett tydligt grönt/gult/rött svar** — plus möjligheten
-att spara resultatet i en delad lista som hela familjen ser.
+innehållsförteckning → få ett tydligt grönt/gult/rött svar direkt** — plus
+möjligheten att spara resultatet i en delad lista som hela familjen fyller på
+med tiden.
 
 **Ingår i MVP:**
 
-1. Foto-analys av ingredienslista (hjältefunktionen).
-2. Spara produkter i en delad lista (säker/osäker-lista).
-3. Lista med sparade produkter (sökbar, färgkodad).
+1. Foto-analys av ingredienslista (hjältefunktionen). Bilden analyseras och
+   slängs sedan — den lagras inte.
+2. Spara produkter i en delad lista (godkända / icke godkända / osäkra).
+3. Lista med sparade produkter (sökbar, färgkodad), som familjen fyller på över
+   tid.
 
 **Senare versioner (ej i MVP):** streckkodsskanning, familjens recept,
 favoritlista, historik, AI-chat ("vad ska jag tänka på när jag lagar
-köttbullar?"), guide-sida för släkt/vänner/förskola.
+köttbullar?"), guide-sida för släkt/vänner/förskola, ev. bildlagring.
 
 ## Användare och åtkomst
 
@@ -61,17 +64,19 @@ Systemet delas i tre väl avgränsade delar:
   kameran på mobil). Länk till "Sparade produkter".
 - **Resultatskärm:** stort färgkodat svar (🟢 grön / 🟡 gul / 🔴 röd), vilka
   glutenkällor som hittades, kort förklaring, alltid synlig disclaimer, samt en
-  knapp **"Spara produkt"**.
+  knapp **"Spara produkt"**. Att spara lägger till produkten i den delade listan
+  (godkänd/icke godkänd/osäker); själva bilden sparas inte.
 - **Sparade produkter:** den delade listan, sökbar och filtrerbar på status och
   kategori, färgkodad. Möjlighet att lägga till/redigera manuellt och ta bort
-  (med bekräftelse, eftersom alla kan redigera).
+  (med bekräftelse, eftersom alla kan redigera). Listan växer över tid när
+  familjen fyller på den.
 
 ### 2. Server (Next.js API-route)
 
 - **`POST /api/analyze`** — tar emot bilden, anropar Claude vision med
   strukturerad utdata (structured outputs), returnerar resultatet. **API-nyckeln
   (`ANTHROPIC_API_KEY`) ligger bara här på servern** och exponeras aldrig i
-  webbläsaren.
+  webbläsaren. Bilden hålls bara i minnet under anropet och lagras inte.
 - Anropet använder Claudes vision (bild som content-block) + `output_config`
   med ett JSON-schema, så att svaret alltid har samma form.
 
@@ -102,17 +107,19 @@ En tabell `saved_products`:
 | `id`         | uuid (pk)  | Genereras automatiskt.                         |
 | `name`       | text       | Produktens/matens namn.                        |
 | `status`     | text       | `safe` / `warning` / `unsafe`.                 |
-| `category`   | text, null | T.ex. Bröd, Pasta, Godis, Mejeri, Snacks.      |
+| `category`   | text, null | Frivillig. T.ex. Bröd, Pasta, Godis, Mejeri.   |
 | `note`       | text, null | Fritext, t.ex. "bara glutenfri variant".       |
 | `brand`      | text, null | Märke/var den finns, t.ex. "Semper", "ICA".    |
-| `image_url`  | text, null | Ev. sparad bild på ingredienslistan.           |
 | `created_at` | timestamptz| Sätts automatiskt.                             |
 | `updated_at` | timestamptz| För "senast ändrad".                           |
 
 RLS-policy som tillåter anon-rollen att läsa, skapa, uppdatera och ta bort
-(eftersom appen är öppen). Bildlagring (`image_url`) kan göras via Supabase
-Storage; om det blir för mycket i MVP sparar vi bara textresultatet och lägger
-bildlagring i en senare iteration.
+(eftersom appen är öppen). **Ingen bildlagring i MVP** — bilden analyseras och
+slängs. Bildlagring kan läggas till i en senare iteration om behovet uppstår.
+
+**Kategori:** frivilligt fält. UI:t erbjuder en liten fast uppsättning förslag
+(Bröd, Pasta, Mjöl/Bakning, Godis/Snacks, Mejeri, Flingor/Müsli, Såser/Kryddor,
+Färdigmat, Dryck, Övrigt) men man kan lämna det tomt.
 
 ## Kunskapsstöd (intern lista)
 
@@ -157,7 +164,8 @@ Appen ger aldrig medicinska garantier.
 - **Manuell verifiering:** ta foton på riktiga förpackningar (en med vete, en
   glutenfri, en med havre) och kontrollera grön/gul/röd.
 
-## Öppna frågor (avgörs i implementationsplanen)
+## Avgjorda designval
 
-- Ska bilden sparas (Supabase Storage) i MVP eller skjutas till nästa iteration?
-- Kategori-listan: fast uppsättning eller fritext först?
+- **Bilden lagras inte** — den analyseras och slängs. Endast textresultatet kan
+  sparas i listan.
+- **Kategori är frivillig**, med en liten fast uppsättning förslag (se ovan).
