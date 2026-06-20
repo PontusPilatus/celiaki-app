@@ -51,7 +51,7 @@ export default function Home() {
   // Resultatskärm — ersätter startskärmen när ett svar finns.
   if (result) {
     return (
-      <main className="mx-auto max-w-md px-4 py-6">
+      <main className="w-full mx-auto max-w-md px-4 py-6">
         <button
           type="button"
           onClick={reset}
@@ -87,7 +87,7 @@ export default function Home() {
 
   // Startskärm — kamera + förklaring.
   return (
-    <main className="mx-auto max-w-md px-4 py-8 space-y-6">
+    <main className="w-full mx-auto max-w-md px-4 py-8 space-y-6">
       {/* Hero card */}
       <div className="rounded-[2.5rem] bg-white shadow-xl overflow-hidden" style={{ boxShadow: "0 20px 60px rgba(14,155,142,0.2)" }}>
         {/* Teal header */}

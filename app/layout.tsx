@@ -53,7 +53,7 @@ export default function RootLayout({
       lang="sv"
       className={`${baloo2.variable} ${nunitoSans.variable} h-full antialiased`}
     >
-      <body className="flex flex-col font-body text-ink">{children}</body>
+      <body className="font-body text-ink">{children}</body>
     </html>
   );
 }
