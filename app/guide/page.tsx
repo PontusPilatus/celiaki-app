@@ -102,7 +102,7 @@ export default function GuidePage() {
                 "Ren skärbräda, kniv och arbetsyta — torka av eller använd separata.",
                 "Koka glutenfri pasta i eget vatten, inte samma som vanlig pasta.",
                 "Läs innehållsförteckningen varje gång — recept och förpackningar ändras.",
-                "Osäker? Hör av er till oss — eller fota innehållsförteckningen i appen.",
+                "Osäker? Hör av er till oss, Christina & Pontus (Elis föräldrar) — eller fota innehållsförteckningen i appen.",
               ].map((t) => (
                 <li key={t} className="flex gap-2.5">
                   <span className="mt-0.5 text-teal shrink-0">
@@ -140,7 +140,7 @@ export default function GuidePage() {
               </p>
               <p>
                 Det här är allmän information, inte medicinsk rådgivning. Vid frågor om Elis kost,
-                prata med oss eller vården.
+                prata med oss — Christina &amp; Pontus, Elis föräldrar — eller vården.
               </p>
             </div>
           </Section>
