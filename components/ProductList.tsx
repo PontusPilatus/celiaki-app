@@ -57,17 +57,21 @@ function formatDate(iso: string): string {
   }
 }
 
+type Filter = "all" | "safe" | "warning" | "unsafe";
+
 export function ProductList({
   products,
   onDelete,
   onUpdate,
+  initialFilter = "all",
 }: {
   products: SavedProduct[];
   onDelete: (id: string) => void;
   onUpdate: (id: string, patch: Partial<NewProduct>) => Promise<void>;
+  initialFilter?: Filter;
 }) {
   const [q, setQ] = useState("");
-  const [filter, setFilter] = useState<"all" | "safe" | "warning" | "unsafe">("all");
+  const [filter, setFilter] = useState<Filter>(initialFilter);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [pendingDelete, setPendingDelete] = useState<SavedProduct | null>(null);

@@ -126,29 +126,41 @@ export default function Home() {
             <p className="mt-4 rounded-2xl bg-rose-50 px-4 py-3 text-rose-700 font-body text-sm">{error}</p>
           )}
 
-          {/* Verdict legend chips */}
+          {/* Verdict legend chips — klickbara genvägar till listan med filter */}
           {!loading && !error && (
             <div className="mt-5 flex gap-2.5">
-              <div className="flex-1 rounded-3xl bg-emerald-100 py-4 grid place-items-center">
+              <Link
+                href="/produkter?filter=safe"
+                aria-label="Visa produkter Elis får äta"
+                className="flex-1 rounded-3xl bg-emerald-100 hover:bg-emerald-200 transition-colors py-4 grid place-items-center"
+              >
                 <span className="w-8 h-8 grid place-items-center rounded-full bg-emerald-500 text-white">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <path d="M20 6 9 17l-5-5"/>
                   </svg>
                 </span>
                 <span className="font-display font-bold text-emerald-700 text-xs mt-1">Får äta</span>
-              </div>
-              <div className="flex-1 rounded-3xl bg-amber-100 py-4 grid place-items-center">
+              </Link>
+              <Link
+                href="/produkter?filter=warning"
+                aria-label="Visa produkter att kontrollera"
+                className="flex-1 rounded-3xl bg-amber-100 hover:bg-amber-200 transition-colors py-4 grid place-items-center"
+              >
                 <span className="w-8 h-8 grid place-items-center rounded-full bg-amber-500 text-white font-display font-extrabold text-lg leading-none">!</span>
                 <span className="font-display font-bold text-amber-700 text-xs mt-1">Kolla</span>
-              </div>
-              <div className="flex-1 rounded-3xl bg-rose-100 py-4 grid place-items-center">
+              </Link>
+              <Link
+                href="/produkter?filter=unsafe"
+                aria-label="Visa produkter som innehåller gluten"
+                className="flex-1 rounded-3xl bg-rose-100 hover:bg-rose-200 transition-colors py-4 grid place-items-center"
+              >
                 <span className="w-8 h-8 grid place-items-center rounded-full bg-rose-500 text-white">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" aria-hidden="true">
                     <path d="M18 6 6 18M6 6l12 12"/>
                   </svg>
                 </span>
                 <span className="font-display font-bold text-rose-700 text-xs mt-1">Gluten</span>
-              </div>
+              </Link>
             </div>
           )}
 
