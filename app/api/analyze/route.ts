@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { analyzeImage } from "@/lib/analyze";
+import { getSupabase } from "@/lib/supabase";
+import { getIngredientGroups, type IngredientGroups } from "@/lib/ingredients";
 
 export const runtime = "nodejs";
 
@@ -31,9 +33,18 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // Ingrediens-flaggorna hämtas från Supabase (redigerbara där). Faller tillbaka
+  // till tomma listor om tabellen inte finns/går att nå — analysen fungerar ändå.
+  let groups: IngredientGroups = { unsafe: [], warning: [], safe: [] };
+  try {
+    groups = await getIngredientGroups(getSupabase());
+  } catch (err) {
+    console.error("kunde inte hämta ingredienser:", err instanceof Error ? err.message : err);
+  }
+
   try {
     const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-    const result = await analyzeImage(client, base64, mediaType);
+    const result = await analyzeImage(client, base64, mediaType, groups);
     return NextResponse.json(result);
   } catch (err) {
     // Logga fullt på servern (Vercel-loggar) — men aldrig bildens innehåll.

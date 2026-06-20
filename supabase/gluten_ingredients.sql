@@ -1,0 +1,78 @@
+-- Ingrediens-flaggor för glutenanalysen — redigerbara i Supabase.
+create table if not exists public.gluten_ingredients (
+  id uuid primary key default gen_random_uuid(),
+  term text not null,
+  flag text not null check (flag in ('safe','warning','unsafe')),
+  created_at timestamptz not null default now()
+);
+
+alter table public.gluten_ingredients enable row level security;
+
+create policy "gi_select" on public.gluten_ingredients for select using (true);
+create policy "gi_insert" on public.gluten_ingredients for insert with check (true);
+create policy "gi_update" on public.gluten_ingredients for update using (true) with check (true);
+create policy "gi_delete" on public.gluten_ingredients for delete using (true);
+
+insert into public.gluten_ingredients (term, flag) values
+  ('vete','unsafe'),
+  ('vetemjöl','unsafe'),
+  ('fullkornsvetemjöl','unsafe'),
+  ('durum','unsafe'),
+  ('grahamsmjöl','unsafe'),
+  ('vetekli','unsafe'),
+  ('vetefiber','unsafe'),
+  ('veteprotein','unsafe'),
+  ('råg','unsafe'),
+  ('rågmjöl','unsafe'),
+  ('rågsikt','unsafe'),
+  ('korn','unsafe'),
+  ('kornmalt','unsafe'),
+  ('maltmjöl','unsafe'),
+  ('maltextrakt','unsafe'),
+  ('bulgur','unsafe'),
+  ('couscous','unsafe'),
+  ('mannagryn','unsafe'),
+  ('brödsmulor','unsafe'),
+  ('ströbröd','unsafe'),
+  ('panko','unsafe'),
+  ('dinkel','unsafe'),
+  ('spelt','unsafe'),
+  ('kamut','unsafe'),
+  ('tritikale','unsafe'),
+  ('seitan','unsafe'),
+  ('havre','warning'),
+  ('kan innehålla spår av gluten','warning'),
+  ('malt','warning'),
+  ('modifierad stärkelse','warning'),
+  ('maltodextrin','warning'),
+  ('dextrin','warning'),
+  ('kryddblandning','warning'),
+  ('arom','warning'),
+  ('sojasås','warning'),
+  ('vetestärkelse','warning'),
+  ('glukossirap från vete','warning'),
+  ('vegetabiliskt protein','warning'),
+  ('panering','warning'),
+  ('panerad','warning'),
+  ('redning','warning'),
+  ('buljong','warning'),
+  ('jästextrakt','warning'),
+  ('ris','safe'),
+  ('rismjöl','safe'),
+  ('majs','safe'),
+  ('majsstärkelse','safe'),
+  ('potatis','safe'),
+  ('potatismjöl','safe'),
+  ('potatisstärkelse','safe'),
+  ('bovete','safe'),
+  ('quinoa','safe'),
+  ('hirs','safe'),
+  ('teff','safe'),
+  ('tapioka','safe'),
+  ('mandelmjöl','safe'),
+  ('kikärtsmjöl','safe'),
+  ('glutenfri havre','safe'),
+  ('kikärtor','safe'),
+  ('linser','safe'),
+  ('sojabönor','safe'),
+  ('baljväxter','safe');
