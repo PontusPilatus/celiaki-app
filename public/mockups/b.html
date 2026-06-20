@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Riktning B — Lekfull & vänlig</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<script>
+tailwind.config = { theme: { extend: {
+  fontFamily: { display:['"Baloo 2"','cursive'], body:['"Nunito Sans"','sans-serif'] },
+  colors: { teal:'#0E9B8E', tealdk:'#0B7E73', sky:'#EAF7F5', ink:'#163A37', berry:'#FF7A59' }
+}}}
+</script>
+<style>body{background:linear-gradient(160deg,#d8f0ec,#eef9f7)}</style>
+</head>
+<body class="font-body text-ink">
+<div class="max-w-md mx-auto p-4 space-y-6">
+  <p class="text-center text-xs tracking-widest uppercase text-ink/40 font-bold font-body">Riktning B · Lekfull &amp; vänlig</p>
+
+  <!-- HOME -->
+  <div class="rounded-[2.5rem] bg-white shadow-xl shadow-teal/20 overflow-hidden">
+    <div class="bg-teal px-6 pt-7 pb-9 text-white relative">
+      <div class="font-display font-700 text-sm flex items-center gap-2"><span class="grid place-items-center w-7 h-7 rounded-full bg-white/25"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>Elis-koll</div>
+      <h1 class="font-display font-800 text-[2.4rem] leading-[1.05] mt-3">Kan Elis äta detta?</h1>
+      <p class="text-white/85 mt-1">Fota & få svar på sekunden ✨</p>
+    </div>
+    <div class="px-6 -mt-5 pb-6">
+      <button class="w-full rounded-[1.8rem] bg-berry hover:bg-[#ef6a49] transition-colors duration-200 text-white py-7 shadow-xl shadow-berry/40 flex flex-col items-center gap-2">
+        <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3.4"/></svg>
+        <span class="font-display font-800 text-2xl">Ta ett foto</span>
+      </button>
+      <div class="mt-5 flex gap-2.5">
+        <div class="flex-1 rounded-3xl bg-emerald-100 py-4 grid place-items-center"><span class="w-8 h-8 grid place-items-center rounded-full bg-emerald-500 text-white"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span class="font-display font-700 text-emerald-700 text-xs mt-1">Får äta</span></div>
+        <div class="flex-1 rounded-3xl bg-amber-100 py-4 grid place-items-center"><span class="w-8 h-8 grid place-items-center rounded-full bg-amber-500 text-white font-display font-800">!</span><span class="font-display font-700 text-amber-700 text-xs mt-1">Kolla</span></div>
+        <div class="flex-1 rounded-3xl bg-rose-100 py-4 grid place-items-center"><span class="w-8 h-8 grid place-items-center rounded-full bg-rose-500 text-white"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span><span class="font-display font-700 text-rose-700 text-xs mt-1">Gluten</span></div>
+      </div>
+      <a class="mt-5 block text-center font-display font-700 text-teal">Sparade produkter →</a>
+    </div>
+  </div>
+
+  <!-- RESULT (green) -->
+  <div class="rounded-[2.5rem] bg-white shadow-xl shadow-teal/20 overflow-hidden">
+    <div class="bg-emerald-500 px-6 py-8 text-white text-center">
+      <div class="mx-auto w-16 h-16 grid place-items-center rounded-full bg-white/25 mb-3"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+      <div class="font-display font-800 text-2xl">Ja, Elis får äta detta!</div>
+      <div class="text-white/85 text-sm mt-1">Inga glutenkällor hittades</div>
+    </div>
+    <div class="px-6 py-5">
+      <div class="rounded-2xl bg-sky px-4 py-3 text-[13px] text-ink/70 leading-relaxed">Kontrollera gärna att förpackningen är märkt glutenfri om du vill vara helt säker. Appen ger aldrig medicinska garantier.</div>
+      <button class="mt-4 w-full rounded-[1.4rem] bg-teal hover:bg-tealdk transition-colors text-white font-display font-800 py-4">Spara produkt</button>
+    </div>
+  </div>
+
+  <!-- LIST -->
+  <div class="rounded-[2.5rem] bg-white shadow-xl shadow-teal/20 overflow-hidden p-5">
+    <h2 class="font-display font-800 text-xl mb-3">Sparade produkter</h2>
+    <div class="flex gap-2 mb-4">
+      <span class="rounded-full bg-teal text-white px-4 py-1.5 text-sm font-display font-700">Alla</span>
+      <span class="rounded-full bg-emerald-100 text-emerald-700 px-3 py-1.5 text-sm font-display font-700">Får äta</span>
+      <span class="rounded-full bg-rose-100 text-rose-700 px-3 py-1.5 text-sm font-display font-700">Gluten</span>
+    </div>
+    <div class="space-y-2.5">
+      <div class="flex items-center gap-3 rounded-2xl border-2 border-emerald-200 px-4 py-3"><span class="w-9 h-9 grid place-items-center rounded-full bg-emerald-500 text-white shrink-0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><div class="flex-1"><div class="font-display font-700">Semper Glutenfri</div><div class="text-xs text-ink/50 font-body">Bröd · Coop</div></div></div>
+      <div class="flex items-center gap-3 rounded-2xl border-2 border-rose-200 px-4 py-3"><span class="w-9 h-9 grid place-items-center rounded-full bg-rose-500 text-white shrink-0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span><div class="flex-1"><div class="font-display font-700">Vanligt knäckebröd</div><div class="text-xs text-ink/50 font-body">Bröd · innehåller råg</div></div></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

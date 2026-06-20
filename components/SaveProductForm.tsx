@@ -70,7 +70,7 @@ export function SaveProductForm({ result, onSave }: { result: AnalysisResult; on
         <label htmlFor="product-category" className="sr-only">Kategori</label>
         <select
           id="product-category"
-          className={`${inputClass} appearance-none`}
+          className={`${inputClass}`}
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         >
