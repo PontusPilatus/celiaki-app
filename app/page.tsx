@@ -152,12 +152,20 @@ export default function Home() {
             </div>
           )}
 
-          <Link
-            href="/produkter"
-            className="mt-5 block text-center font-display font-bold text-teal hover:text-tealdk transition-colors"
-          >
-            Sparade produkter →
-          </Link>
+          <div className="mt-5 flex flex-col items-center gap-2.5">
+            <Link
+              href="/produkter"
+              className="block text-center font-display font-bold text-teal hover:text-tealdk transition-colors"
+            >
+              Sparade produkter →
+            </Link>
+            <Link
+              href="/guide"
+              className="block text-center font-display font-bold text-teal hover:text-tealdk transition-colors"
+            >
+              Guide för familj &amp; vänner →
+            </Link>
+          </div>
         </div>
       </div>
     </main>
