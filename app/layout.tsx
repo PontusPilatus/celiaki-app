@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Baloo_2, Nunito_Sans } from "next/font/google";
 import "./globals.css";
 
@@ -20,6 +20,27 @@ export const metadata: Metadata = {
   title: "Kan Elis äta detta?",
   description:
     "Hjälper familjen avgöra om en produkt är säker för Elis som har celiaki.",
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Elis-koll",
+  },
+  icons: {
+    icon: [
+      { url: "/icons/icon.svg", type: "image/svg+xml" },
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+  themeColor: "#0B7E73",
 };
 
 export default function RootLayout({
@@ -32,12 +53,7 @@ export default function RootLayout({
       lang="sv"
       className={`${baloo2.variable} ${nunitoSans.variable} h-full antialiased`}
     >
-      <body
-        className="min-h-full flex flex-col font-body text-ink"
-        style={{ background: "linear-gradient(160deg,#d8f0ec,#eef9f7)" }}
-      >
-        {children}
-      </body>
+      <body className="flex flex-col font-body text-ink">{children}</body>
     </html>
   );
 }
