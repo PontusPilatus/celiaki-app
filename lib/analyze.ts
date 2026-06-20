@@ -1,23 +1,30 @@
 import Anthropic from "@anthropic-ai/sdk";
 import type { AnalysisResult, ProductStatus } from "./types";
-import { GLUTEN_SOURCES, SAFE_INGREDIENTS, WARNING_INGREDIENTS } from "./gluten";
+import type { IngredientGroups } from "./ingredients";
 
 export const MODEL = "claude-sonnet-4-6";
 
-export function buildPrompt(): string {
-  return [
+export function buildPrompt(groups: IngredientGroups): string {
+  const lines = [
     "Du är en hjälpsam assistent som läser ingredienslistor på svenska livsmedel",
     "och avgör om en produkt är säker för en person med celiaki (glutenintolerans).",
     "",
+    "Gluten finns i vete, råg och korn — och i allt som tillverkas av dem.",
     "Läs av ingredienslistan i bilden (OCR) och avgör status utifrån de ingredienser du kan tyda:",
-    `- "unsafe" (rött) om någon av dessa glutenkällor finns: ${GLUTEN_SOURCES.join(", ")}.`,
-    `- "warning" (gult) om något kräver kontroll: ${WARNING_INGREDIENTS.join(", ")}, eller "kan innehålla spår av gluten".`,
-    `- "safe" (grönt) om inga gluteninnehållande ingredienser hittas. Normalt OK: ${SAFE_INGREDIENTS.join(", ")}.`,
+    '- "unsafe" (rött) om en gluteninnehållande ingrediens finns.',
+    '- "warning" (gult) om något kräver kontroll, eller om det står "kan innehålla spår av gluten".',
+    '- "safe" (grönt) om inga gluteninnehållande ingredienser hittas.',
+  ];
+  if (groups.unsafe.length) lines.push(`Ord som betyder gluten (unsafe): ${groups.unsafe.join(", ")}.`);
+  if (groups.warning.length) lines.push(`Ord som kräver kontroll (warning): ${groups.warning.join(", ")}.`);
+  if (groups.safe.length) lines.push(`Normalt glutenfria (safe): ${groups.safe.join(", ")}.`);
+  lines.push(
     "",
     'Havre (havregryn, havremjöl m.m.) är "warning" om förpackningen INTE uttryckligen är märkt "glutenfri"/"glutenfree", eftersom vanlig havre ofta är korskontaminerad med gluten. Förklara det i reasoning — skyll INTE på bildkvaliteten när du faktiskt kan läsa ingredienserna.',
     "Basera alltid svaret på den text du KAN läsa. Sätt bara status warning med hänvisning till otydlig bild om du genuint inte kan tyda någon del av ingredienslistan; be då om en tydligare bild i reasoning.",
     "Håll reasoning kort, konkret och på svenska. Svara ENDAST enligt det angivna JSON-schemat.",
-  ].join("\n");
+  );
+  return lines.join("\n");
 }
 
 export const ANALYSIS_SCHEMA = {
@@ -56,16 +63,14 @@ export async function analyzeImage(
   client: Anthropic,
   base64: string,
   mediaType: string,
+  groups: IngredientGroups,
 ): Promise<AnalysisResult> {
   const response = await client.messages.create({
     model: MODEL,
     max_tokens: 1024,
-    system: buildPrompt(),
+    system: buildPrompt(groups),
     output_config: {
-      format: {
-        type: "json_schema",
-        schema: ANALYSIS_SCHEMA as { [key: string]: unknown },
-      },
+      format: { type: "json_schema", schema: ANALYSIS_SCHEMA as { [key: string]: unknown } },
     },
     messages: [
       {
@@ -79,10 +84,7 @@ export async function analyzeImage(
               data: base64,
             },
           },
-          {
-            type: "text",
-            text: "Kan Elis (celiaki) äta denna produkt? Läs innehållsförteckningen.",
-          },
+          { type: "text", text: "Kan Elis (celiaki) äta denna produkt? Läs innehållsförteckningen." },
         ],
       },
     ],

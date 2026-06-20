@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { GLUTEN_SOURCES, SAFE_INGREDIENTS } from "@/lib/gluten";
+import { getSupabase } from "@/lib/supabase";
+import { getIngredientGroups, type IngredientGroups } from "@/lib/ingredients";
 
 export const metadata: Metadata = {
   title: "Guide — Kan Elis äta detta?",
   description: "Kort guide om celiaki och gluten för familj, vänner och förskola.",
 };
+
+// Hämta alltid färska ingrediens-flaggor från Supabase.
+export const dynamic = "force-dynamic";
 
 function Chips({ items, tone }: { items: readonly string[]; tone: "red" | "green" | "amber" }) {
   const cls =
@@ -33,7 +37,14 @@ function Heading({ children }: { children: React.ReactNode }) {
   return <h2 className="font-display font-extrabold text-xl text-ink">{children}</h2>;
 }
 
-export default function GuidePage() {
+export default async function GuidePage() {
+  let groups: IngredientGroups = { unsafe: [], warning: [], safe: [] };
+  try {
+    groups = await getIngredientGroups(getSupabase());
+  } catch {
+    // Faller tillbaka till tomma listor — texten i avsnitten står ändå på egna ben.
+  }
+
   return (
     <main className="w-full mx-auto max-w-md px-4 py-8">
       <div className="rounded-[2.5rem] bg-white overflow-hidden" style={{ boxShadow: "0 20px 60px rgba(14,155,142,0.2)" }}>
@@ -71,13 +82,13 @@ export default function GuidePage() {
           <Section>
             <Heading>🔴 Innehåller gluten</Heading>
             <p>Gluten finns i vete, råg och korn — och i allt som görs av dem:</p>
-            <Chips items={GLUTEN_SOURCES} tone="red" />
+            <Chips items={groups.unsafe} tone="red" />
           </Section>
 
           <Section>
             <Heading>🟢 Naturligt glutenfritt</Heading>
             <p>Dessa innehåller inte gluten i sig:</p>
-            <Chips items={SAFE_INGREDIENTS} tone="green" />
+            <Chips items={groups.safe} tone="green" />
             <p className="text-sm text-ink/55">
               Men kolla ändå alltid förpackningen — i färdiga produkter kan de blandas med
               glutenhaltiga ingredienser.
