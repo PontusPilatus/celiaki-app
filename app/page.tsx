@@ -111,7 +111,7 @@ export default function Home() {
           <h1 className="font-display font-extrabold text-[2.4rem] leading-[1.05] mt-3">
             Kan Elis äta detta?
           </h1>
-          <p className="text-white/85 mt-1 font-body">Fota &amp; få svar på sekunden</p>
+          <p className="text-white/85 mt-1 font-body">Fota &amp; få svar direkt.</p>
         </div>
 
         {/* Main content area */}
