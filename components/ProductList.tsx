@@ -109,12 +109,12 @@ export function ProductList({ products, onDelete }: { products: SavedProduct[]; 
               <div className="flex-1 min-w-0">
                 <div className="font-display font-bold text-ink truncate">{p.name}</div>
                 {(p.brand || p.category) && (
-                  <div className="text-xs text-ink/50 font-body">{[p.category, p.brand].filter(Boolean).join(" · ")}</div>
+                  <div className="text-xs text-ink/50 font-body truncate">{[p.category, p.brand].filter(Boolean).join(" · ")}</div>
                 )}
-                {p.note && <div className="text-xs text-ink/50 font-body">{p.note}</div>}
+                {p.note && <div className="text-xs text-ink/50 font-body break-words">{p.note}</div>}
               </div>
               <button
-                className="text-sm font-body text-ink/40 hover:text-rose-600 transition-colors focus:outline-none focus:ring-2 focus:ring-rose-300 rounded px-1 py-1 min-w-[44px] min-h-[44px] flex items-center justify-center"
+                className="shrink-0 text-sm font-body text-ink/40 hover:text-rose-600 transition-colors focus:outline-none focus:ring-2 focus:ring-rose-300 rounded px-1 py-1 min-w-[44px] min-h-[44px] flex items-center justify-center"
                 onClick={() => { if (confirm(`Ta bort ${p.name}?`)) onDelete(p.id); }}
                 aria-label={`Ta bort ${p.name}`}
               >
