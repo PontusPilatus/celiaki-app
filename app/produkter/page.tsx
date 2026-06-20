@@ -36,7 +36,7 @@ export default function ProductsPage() {
   }
 
   return (
-    <main className="mx-auto max-w-md px-4 py-8">
+    <main className="w-full mx-auto max-w-md px-4 py-8">
       <div className="rounded-[2.5rem] bg-white overflow-hidden" style={{ boxShadow: "0 20px 60px rgba(14,155,142,0.2)" }}>
         {/* Teal header */}
         <div className="bg-teal px-6 pt-7 pb-7 text-white">
