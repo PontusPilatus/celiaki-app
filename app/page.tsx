@@ -8,6 +8,7 @@ import { Disclaimer } from "@/components/Disclaimer";
 import { SaveProductForm } from "@/components/SaveProductForm";
 import { getSupabase } from "@/lib/supabase";
 import { createProduct, type NewProduct } from "@/lib/products";
+import { resizeImage } from "@/lib/resizeImage";
 import type { AnalysisResult } from "@/lib/types";
 
 export default function Home() {
@@ -20,13 +21,23 @@ export default function Home() {
     setError(null);
     setResult(null);
     try {
+      const image = await resizeImage(file);
       const form = new FormData();
-      form.append("image", file);
+      form.append("image", image, "foto.jpg");
       const res = await fetch("/api/analyze", { method: "POST", body: form });
-      if (!res.ok) throw new Error("fel");
+      if (!res.ok) {
+        let msg = "Något gick fel. Försök igen.";
+        try {
+          const body = await res.json();
+          if (body?.error) msg = body.error;
+        } catch {
+          /* behåll standardmeddelandet */
+        }
+        throw new Error(msg);
+      }
       setResult(await res.json());
-    } catch {
-      setError("Något gick fel. Försök igen.");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Något gick fel. Försök igen.");
     } finally {
       setLoading(false);
     }
