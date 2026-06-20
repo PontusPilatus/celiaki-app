@@ -4,7 +4,6 @@ import {
   useCallback,
   useEffect,
   useId,
-  useLayoutEffect,
   useRef,
   useState,
 } from "react";
@@ -28,13 +27,14 @@ export function Select({ id, label, value, onChange, options }: Props) {
   const listId = id ?? `select-${reactId}`;
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [rect, setRect] = useState<{ left: number; top: number; width: number; below: boolean } | null>(null);
+  const [rect, setRect] = useState<{ left: number; width: number; below: boolean; top: number; bottom: number } | null>(null);
 
   const triggerRef = useRef<HTMLButtonElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const typeahead = useRef<{ str: string; at: number }>({ str: "", at: 0 });
 
   const selected = options.find((o) => o.value === value);
+  const hasValue = !!selected && selected.value !== "";
   const selectedIndex = Math.max(0, options.findIndex((o) => o.value === value));
 
   const position = useCallback(() => {
@@ -45,9 +45,10 @@ export function Select({ id, label, value, onChange, options }: Props) {
     const below = spaceBelow > 280 || spaceBelow > r.top;
     setRect({
       left: r.left,
-      top: below ? r.bottom + 8 : r.top - 8,
       width: r.width,
       below,
+      top: r.bottom + 8,
+      bottom: window.innerHeight - (r.top - 8),
     });
   }, []);
 
@@ -59,6 +60,7 @@ export function Select({ id, label, value, onChange, options }: Props) {
 
   const closeMenu = useCallback((refocus = true) => {
     setOpen(false);
+    typeahead.current = { str: "", at: 0 };
     if (refocus) triggerRef.current?.focus();
   }, []);
 
@@ -72,7 +74,7 @@ export function Select({ id, label, value, onChange, options }: Props) {
   );
 
   // Keep the panel glued to the trigger while open.
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!open) return;
     position();
     const onScrollResize = () => position();
@@ -166,12 +168,13 @@ export function Select({ id, label, value, onChange, options }: Props) {
         className={triggerClass}
         aria-haspopup="listbox"
         aria-expanded={open}
+        aria-controls={open ? listId : undefined}
         aria-label={label}
         onClick={() => (open ? closeMenu(false) : openMenu())}
         onKeyDown={onTriggerKeyDown}
       >
-        <span className={selected ? "text-ink" : "text-ink/40"}>
-          {selected ? selected.label : label}
+        <span className={hasValue ? "text-ink" : "text-ink/40"}>
+          {hasValue ? selected!.label : label}
         </span>
         <svg
           width="20"
@@ -203,9 +206,7 @@ export function Select({ id, label, value, onChange, options }: Props) {
               position: "fixed",
               left: rect.left,
               width: rect.width,
-              ...(rect.below
-                ? { top: rect.top }
-                : { bottom: window.innerHeight - rect.top }),
+              ...(rect.below ? { top: rect.top } : { bottom: rect.bottom }),
             }}
             className="z-50 max-h-72 overflow-y-auto overscroll-contain rounded-2xl bg-white py-1.5 shadow-2xl ring-1 ring-sky focus:outline-none"
           >
