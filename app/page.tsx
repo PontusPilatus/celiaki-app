@@ -164,24 +164,36 @@ export default function Home() {
             </div>
           )}
 
-          <div className="mt-5 flex flex-col items-center gap-2.5">
+          <div className="mt-5 space-y-2.5">
             <Link
               href="/produkter"
-              className="block text-center font-display font-bold text-teal hover:text-tealdk transition-colors"
+              className="flex items-center gap-3 rounded-2xl bg-sky hover:bg-teal/10 transition-colors px-4 py-3.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal/40"
             >
-              Sparade produkter →
+              <span className="w-10 h-10 grid place-items-center rounded-xl bg-teal text-white shrink-0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+              </span>
+              <span className="flex-1 font-display font-bold text-ink">Sparade produkter</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="text-ink/30 shrink-0"><path d="m9 18 6-6-6-6"/></svg>
             </Link>
             <Link
               href="/recept"
-              className="block text-center font-display font-bold text-teal hover:text-tealdk transition-colors"
+              className="flex items-center gap-3 rounded-2xl bg-sky hover:bg-teal/10 transition-colors px-4 py-3.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal/40"
             >
-              Glutenfria recept →
+              <span className="w-10 h-10 grid place-items-center rounded-xl bg-teal text-white shrink-0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              </span>
+              <span className="flex-1 font-display font-bold text-ink">Glutenfria recept</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="text-ink/30 shrink-0"><path d="m9 18 6-6-6-6"/></svg>
             </Link>
             <Link
               href="/guide"
-              className="block text-center font-display font-bold text-teal hover:text-tealdk transition-colors"
+              className="flex items-center gap-3 rounded-2xl bg-sky hover:bg-teal/10 transition-colors px-4 py-3.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal/40"
             >
-              Guide för familj &amp; vänner →
+              <span className="w-10 h-10 grid place-items-center rounded-xl bg-teal text-white shrink-0">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </span>
+              <span className="flex-1 font-display font-bold text-ink">Guide för familj &amp; vänner</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="text-ink/30 shrink-0"><path d="m9 18 6-6-6-6"/></svg>
             </Link>
           </div>
         </div>
