@@ -24,7 +24,11 @@ export default function Home() {
       const image = await resizeImage(file);
       const form = new FormData();
       form.append("image", image, "foto.jpg");
-      const res = await fetch("/api/analyze", { method: "POST", body: form });
+      const res = await fetch("/api/analyze", {
+        method: "POST",
+        headers: { "x-app-code": localStorage.getItem("eliskoll_code") ?? "" },
+        body: form,
+      });
       if (!res.ok) {
         let msg = "Något gick fel. Försök igen.";
         try {

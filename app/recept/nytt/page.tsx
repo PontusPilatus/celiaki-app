@@ -20,7 +20,10 @@ export default function NewRecipePage() {
     try {
       const res = await fetch("/api/extract-recipe", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "x-app-code": localStorage.getItem("eliskoll_code") ?? "",
+        },
         body: JSON.stringify({ url }),
       });
       const data = await res.json();

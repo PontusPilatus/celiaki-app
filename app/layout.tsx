@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Baloo_2, Nunito_Sans } from "next/font/google";
 import "./globals.css";
+import { CodeGate } from "@/components/CodeGate";
 
 const baloo2 = Baloo_2({
   variable: "--font-baloo2",
@@ -53,7 +54,9 @@ export default function RootLayout({
       lang="sv"
       className={`${baloo2.variable} ${nunitoSans.variable} h-full antialiased`}
     >
-      <body className="font-body text-ink">{children}</body>
+      <body className="font-body text-ink">
+        <CodeGate>{children}</CodeGate>
+      </body>
     </html>
   );
 }
