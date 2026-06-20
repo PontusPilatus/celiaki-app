@@ -3,10 +3,20 @@
 import { useState } from "react";
 import type { AnalysisResult } from "@/lib/types";
 import type { NewProduct } from "@/lib/products";
+import { Select, type SelectOption } from "./Select";
 
-const CATEGORIES = [
-  "", "Bröd", "Pasta", "Mjöl/Bakning", "Godis/Snacks", "Mejeri",
-  "Flingor/Müsli", "Såser/Kryddor", "Färdigmat", "Dryck", "Övrigt",
+const CATEGORY_OPTIONS: SelectOption[] = [
+  { value: "", label: "Kategori (frivillig)" },
+  { value: "Bröd", label: "Bröd" },
+  { value: "Pasta", label: "Pasta" },
+  { value: "Mjöl/Bakning", label: "Mjöl/Bakning" },
+  { value: "Godis/Snacks", label: "Godis/Snacks" },
+  { value: "Mejeri", label: "Mejeri" },
+  { value: "Flingor/Müsli", label: "Flingor/Müsli" },
+  { value: "Såser/Kryddor", label: "Såser/Kryddor" },
+  { value: "Färdigmat", label: "Färdigmat" },
+  { value: "Dryck", label: "Dryck" },
+  { value: "Övrigt", label: "Övrigt" },
 ];
 
 const inputClass =
@@ -66,19 +76,13 @@ export function SaveProductForm({ result, onSave }: { result: AnalysisResult; on
         />
       </div>
 
-      <div>
-        <label htmlFor="product-category" className="sr-only">Kategori</label>
-        <select
-          id="product-category"
-          className={`${inputClass}`}
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        >
-          {CATEGORIES.map((c) => (
-            <option key={c} value={c}>{c || "Kategori (frivillig)"}</option>
-          ))}
-        </select>
-      </div>
+      <Select
+        id="product-category"
+        label="Kategori (frivillig)"
+        value={category}
+        onChange={setCategory}
+        options={CATEGORY_OPTIONS}
+      />
 
       <div>
         <label htmlFor="product-brand" className="sr-only">Märke eller var den finns</label>
