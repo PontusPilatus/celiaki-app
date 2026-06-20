@@ -1,12 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { ProductList } from "@/components/ProductList";
 import { getSupabase } from "@/lib/supabase";
 import { listProducts, deleteProduct, updateProduct, type SavedProduct, type NewProduct } from "@/lib/products";
 
-export default function ProductsPage() {
+type Filter = "all" | "safe" | "warning" | "unsafe";
+
+function parseFilter(value: string | null): Filter {
+  return value === "safe" || value === "warning" || value === "unsafe" ? value : "all";
+}
+
+function ProductsContent() {
+  const initialFilter = parseFilter(useSearchParams().get("filter"));
   const [products, setProducts] = useState<SavedProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -74,10 +82,23 @@ export default function ProductsPage() {
               </button>
             </div>
           ) : (
-            <ProductList products={products} onDelete={handleDelete} onUpdate={handleUpdate} />
+            <ProductList
+              products={products}
+              onDelete={handleDelete}
+              onUpdate={handleUpdate}
+              initialFilter={initialFilter}
+            />
           )}
         </div>
       </div>
     </main>
+  );
+}
+
+export default function ProductsPage() {
+  return (
+    <Suspense fallback={null}>
+      <ProductsContent />
+    </Suspense>
   );
 }
