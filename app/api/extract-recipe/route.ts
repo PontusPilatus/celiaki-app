@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { cleanHtml, extractRecipe } from "@/lib/recipe-extract";
+import { codeOk, codeFromRequest } from "@/lib/auth";
 
 export const runtime = "nodejs";
 
 export async function POST(req: NextRequest) {
+  if (!codeOk(codeFromRequest(req))) {
+    return NextResponse.json({ error: "Fel eller saknad kod." }, { status: 401 });
+  }
+
   if (!process.env.ANTHROPIC_API_KEY) {
     return NextResponse.json(
       { error: "Servern saknar API-nyckel (ANTHROPIC_API_KEY är inte satt)." },

@@ -3,10 +3,15 @@ import Anthropic from "@anthropic-ai/sdk";
 import { analyzeImage } from "@/lib/analyze";
 import { getSupabase } from "@/lib/supabase";
 import { getIngredientGroups, type IngredientGroups } from "@/lib/ingredients";
+import { codeOk, codeFromRequest } from "@/lib/auth";
 
 export const runtime = "nodejs";
 
 export async function POST(req: NextRequest) {
+  if (!codeOk(codeFromRequest(req))) {
+    return NextResponse.json({ error: "Fel eller saknad kod." }, { status: 401 });
+  }
+
   if (!process.env.ANTHROPIC_API_KEY) {
     console.error("analyze error: ANTHROPIC_API_KEY saknas i miljön");
     return NextResponse.json(
