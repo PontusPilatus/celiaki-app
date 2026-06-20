@@ -125,6 +125,14 @@ export default async function GuidePage() {
                 </li>
               ))}
             </ul>
+            <a
+              href="https://www.1177.se/sjukdomar--besvar/allergier-och-overkanslighet/celiaki/mat-och-matlagning-vid-celiaki/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block font-bold text-teal underline"
+            >
+              Läs mer om mat &amp; matlagning hos 1177 →
+            </a>
           </Section>
 
           <Section>
@@ -138,17 +146,29 @@ export default async function GuidePage() {
 
           <Section>
             <div className="rounded-2xl bg-sky px-4 py-3 text-sm text-ink/70 space-y-2">
-              <p>
-                Faktan bygger på Livsmedelsverket.{" "}
-                <a
-                  href="https://www.livsmedelsverket.se/matvanor-halsa--miljo/sjukdomar-allergier-och-halsa/allergi-och-overkanslighet/gluten-celiaki-spannmalsallergi/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-bold text-teal underline"
-                >
-                  Läs mer hos Livsmedelsverket →
-                </a>
-              </p>
+              <p>Faktan bygger på Livsmedelsverket och 1177. Läs mer hos:</p>
+              <ul className="space-y-1">
+                <li>
+                  <a
+                    href="https://www.livsmedelsverket.se/matvanor-halsa--miljo/sjukdomar-allergier-och-halsa/allergi-och-overkanslighet/gluten-celiaki-spannmalsallergi/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-bold text-teal underline"
+                  >
+                    Livsmedelsverket →
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.1177.se/sjukdomar--besvar/allergier-och-overkanslighet/celiaki/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-bold text-teal underline"
+                  >
+                    1177 — om celiaki →
+                  </a>
+                </li>
+              </ul>
               <p>
                 Det här är allmän information, inte medicinsk rådgivning. Vid frågor om Elis kost,
                 prata med oss — Christina &amp; Pontus, Elis föräldrar — eller vården.
