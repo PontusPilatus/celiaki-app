@@ -172,6 +172,12 @@ export default function Home() {
               Sparade produkter →
             </Link>
             <Link
+              href="/recept"
+              className="block text-center font-display font-bold text-teal hover:text-tealdk transition-colors"
+            >
+              Glutenfria recept →
+            </Link>
+            <Link
               href="/guide"
               className="block text-center font-display font-bold text-teal hover:text-tealdk transition-colors"
             >
